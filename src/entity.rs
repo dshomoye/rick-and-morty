@@ -6,10 +6,35 @@ pub mod entity {
 
     const RMAPIROOT: &str = "https://rickandmortyapi.com/api";
 
+    async fn get_url<T>(url: &str) -> Result<T, Error>
+    where
+        T: DeserializeOwned,
+    {
+        let resp = reqwest::get(url).await?.json::<T>().await?;
+        Ok(resp)
+    }
+
     #[derive(Deserialize, Debug)]
     pub struct PageResponse<T> {
         results: Vec<T>,
         info: Info,
+    }
+
+    impl<T> PageResponse<T> {
+        pub async fn get_next(&self) -> Result<Option<PageResponse<T>>, Error>
+        where
+            T: DeserializeOwned
+        {
+            match self.info.next.clone() {
+                Some(url) => {
+                    let resp = get_url::<PageResponse<T>>(&url).await?;
+                    Ok(Some(resp))
+                }
+                None => {
+                    Ok(None)
+                }
+            }
+        }
     }
 
     #[derive(Deserialize, Debug)]
@@ -37,9 +62,9 @@ pub mod entity {
 
         fn base_url(&self) -> String {
             match self.entity_type {
-                EntityTypes::Character => RMAPIROOT.to_owned() + "/character/",
-                EntityTypes::Episode => RMAPIROOT.to_owned() + "/episode/",
-                EntityTypes::Location => RMAPIROOT.to_owned() + "/location/",
+                EntityTypes::Character => RMAPIROOT.to_owned() + "/character",
+                EntityTypes::Episode => RMAPIROOT.to_owned() + "/episode",
+                EntityTypes::Location => RMAPIROOT.to_owned() + "/location",
             }
         }
 
@@ -48,12 +73,12 @@ pub mod entity {
         where
             T: DeserializeOwned,
         {
-            let url = self.base_url() + &id.to_string();
-            let resp = reqwest::get(&url).await?.json::<T>().await?;
+            let url = self.base_url() + "/" + &id.to_string();
+            let resp = get_url::<T>(&url).await?;
             Ok(resp)
         }
 
-        /// Get Vectory of all entities by calling all page urls.
+        /// Get Vector of all entities by calling all page urls.
         pub async fn get_all<T>(&self) -> Result<Vec<T>, Error>
         where
             T: DeserializeOwned,
@@ -61,7 +86,7 @@ pub mod entity {
             let mut result: Vec<T> = vec![];
             let mut url = self.base_url();
             loop {
-                let mut mr = self.get_url::<PageResponse<T>>(&url).await?;
+                let mut mr = get_url::<PageResponse<T>>(&url).await?;
                 result.append(&mut mr.results);
                 match mr.info.next {
                     Some(n) => {
@@ -79,10 +104,8 @@ pub mod entity {
             T: DeserializeOwned,
         {
             let url = self.base_url() + "/?page=" + &page.to_string();
-            let resp = reqwest::get(&url)
-                .await?
-                .json::<PageResponse<T>>()
-                .await?;
+            println!("getting url {}", url);
+            let resp = get_url::<PageResponse<T>>(&url).await?;
             Ok(resp)
         }
 
@@ -93,23 +116,13 @@ pub mod entity {
         {
             let mut page_query = String::from("[");
             for page in pages.iter() {
-                page_query = page_query + &page.to_string() + ",";
+                page_query = page_query +  &page.to_string() + ",";
             }
             page_query = page_query + "]";
-            let url = self.base_url() + &page_query;
-            let resp = reqwest::get(&url)
-                .await?
-                .json::<PageResponse<T>>()
-                .await?;
+            let url = self.base_url() + "/" + &page_query;
+            let resp = get_url::<PageResponse<T>>(&url).await?;
             Ok(resp)
         }
 
-        async fn get_url<T>(&self, url: &str) -> Result<T, Error>
-        where
-            T: DeserializeOwned,
-        {
-            let resp = reqwest::get(url).await?.json::<T>().await?;
-            Ok(resp)
-        }
     }
 }
