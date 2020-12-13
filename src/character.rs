@@ -1,6 +1,8 @@
 pub mod Character {
   use crate::entity::Entity::*;
+  use serde::Deserialize;
 
+  #[derive(Deserialize)]
   pub struct Character {
     id: String,
     name: String,
