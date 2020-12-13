@@ -6,13 +6,13 @@ pub mod entity {
 
     const RMAPIROOT: &str = "https://rickandmortyapi.com/api";
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     pub struct PageResponse<T> {
         results: Vec<T>,
         info: Info,
     }
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     pub struct Info {
         pages: i64,
         count: i64,
@@ -58,11 +58,11 @@ pub mod entity {
         where
             T: DeserializeOwned,
         {
-            let mut resArr: Vec<T> = vec![];
+            let mut result: Vec<T> = vec![];
             let mut url = self.base_url();
             loop {
                 let mut mr = self.get_url::<PageResponse<T>>(&url).await?;
-                resArr.append(&mut mr.results);
+                result.append(&mut mr.results);
                 match mr.info.next {
                     Some(n) => {
                         url = n;
@@ -70,7 +70,7 @@ pub mod entity {
                     None => break,
                 }
             }
-            Ok(resArr)
+            Ok(result)
         }
 
         /// Get all entities in passed page

@@ -1,10 +1,12 @@
-pub mod character {
-    use crate::entity::entity::*;
-    use serde::Deserialize;
+use crate::entity::entity::*;
+use serde::Deserialize;
 
-    #[derive(Deserialize)]
+pub mod character {
+    use super::*;
+
+    #[derive(Deserialize, Debug)]
     pub struct Character {
-        id: String,
+        id: i64,
         name: String,
     }
 
@@ -32,12 +34,11 @@ pub mod character {
 }
 
 pub mod location {
-    use crate::entity::entity::*;
-    use serde::Deserialize;
+    use super::*;
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     pub struct Location {
-        id: String,
+        id: i64,
         name: String,
     }
 
@@ -63,12 +64,11 @@ pub mod location {
 }
 
 pub mod episode {
-    use crate::entity::entity::*;
-    use serde::Deserialize;
+    use super::*;
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     pub struct Episode {
-        id: String,
+        id: i64,
         name: String,
     }
 
