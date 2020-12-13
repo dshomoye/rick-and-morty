@@ -28,21 +28,17 @@ pub mod Entity {
   }
   
   pub struct API {
-    entityType: EntityTypes
+    entity_type: EntityTypes
   }
 
   
   impl API {
     pub fn new(e: EntityTypes) -> Self {
-      match e {
-        Character => API {entityType: EntityTypes::Character},
-        Location => API {entityType: EntityTypes::Location},
-        Episode => API {entityType: EntityTypes::Episode},
-      }
+      API {entity_type: e}
     }
 
     fn base_url(&self) -> String {
-      match self.entityType {
+      match self.entity_type {
         EntityTypes::Character => RMAPIROOT.to_owned() + "/character/",
         EntityTypes::Episode =>  RMAPIROOT.to_owned() + "/episode/",
         EntityTypes::Location =>  RMAPIROOT.to_owned() + "/location/",
