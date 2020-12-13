@@ -1,4 +1,4 @@
-pub mod Entity {
+pub mod entity {
     use reqwest;
     pub use reqwest::Error;
     use serde::de::DeserializeOwned;
@@ -7,7 +7,7 @@ pub mod Entity {
     const RMAPIROOT: &str = "https://rickandmortyapi.com/api";
 
     #[derive(Deserialize)]
-    pub struct MultiPageResponse<T> {
+    pub struct PageResponse<T> {
         results: Vec<T>,
         info: Info,
     }
@@ -61,7 +61,7 @@ pub mod Entity {
             let mut resArr: Vec<T> = vec![];
             let mut url = self.base_url();
             loop {
-                let mut mr = self.get_url::<MultiPageResponse<T>>(&url).await?;
+                let mut mr = self.get_url::<PageResponse<T>>(&url).await?;
                 resArr.append(&mut mr.results);
                 match mr.info.next {
                     Some(n) => {
@@ -74,20 +74,20 @@ pub mod Entity {
         }
 
         /// Get all entities in passed page
-        pub async fn get_page<T>(&self, page: i64) -> Result<MultiPageResponse<T>, Error>
+        pub async fn get_page<T>(&self, page: i64) -> Result<PageResponse<T>, Error>
         where
             T: DeserializeOwned,
         {
             let url = self.base_url() + "/?page=" + &page.to_string();
             let resp = reqwest::get(&url)
                 .await?
-                .json::<MultiPageResponse<T>>()
+                .json::<PageResponse<T>>()
                 .await?;
             Ok(resp)
         }
 
         /// Get multiple entities in vector of provided ids
-        pub async fn get_multiple<T>(&self, pages: Vec<i64>) -> Result<MultiPageResponse<T>, Error>
+        pub async fn get_multiple<T>(&self, pages: Vec<i64>) -> Result<PageResponse<T>, Error>
         where
             T: DeserializeOwned,
         {
@@ -99,7 +99,7 @@ pub mod Entity {
             let url = self.base_url() + &page_query;
             let resp = reqwest::get(&url)
                 .await?
-                .json::<MultiPageResponse<T>>()
+                .json::<PageResponse<T>>()
                 .await?;
             Ok(resp)
         }

@@ -2,7 +2,7 @@ mod entities;
 mod entity;
 
 pub use self::entities::{character, episode, location};
-pub use self::entity::Entity::MultiPageResponse;
+pub use self::entity::entity::PageResponse;
 
 #[cfg(test)]
 mod tests {

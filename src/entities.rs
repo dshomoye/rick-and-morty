@@ -1,5 +1,5 @@
 pub mod character {
-    use crate::entity::Entity::*;
+    use crate::entity::entity::*;
     use serde::Deserialize;
 
     #[derive(Deserialize)]
@@ -18,13 +18,13 @@ pub mod character {
         API::new(EntityTypes::Character).get::<Character>(id).await
     }
 
-    pub async fn get_page(page: i64) -> Result<MultiPageResponse<Character>, Error> {
+    pub async fn get_page(page: i64) -> Result<PageResponse<Character>, Error> {
         API::new(EntityTypes::Character)
             .get_page::<Character>(page)
             .await
     }
 
-    pub async fn get_multiple(pages: Vec<i64>) -> Result<MultiPageResponse<Character>, Error> {
+    pub async fn get_multiple(pages: Vec<i64>) -> Result<PageResponse<Character>, Error> {
         API::new(EntityTypes::Character)
             .get_multiple::<Character>(pages)
             .await
@@ -32,7 +32,7 @@ pub mod character {
 }
 
 pub mod location {
-    use crate::entity::Entity::*;
+    use crate::entity::entity::*;
     use serde::Deserialize;
 
     #[derive(Deserialize)]
@@ -49,13 +49,13 @@ pub mod location {
         API::new(EntityTypes::Location).get::<Location>(id).await
     }
 
-    pub async fn get_page(page: i64) -> Result<MultiPageResponse<Location>, Error> {
+    pub async fn get_page(page: i64) -> Result<PageResponse<Location>, Error> {
         API::new(EntityTypes::Location)
             .get_page::<Location>(page)
             .await
     }
 
-    pub async fn get_multiple(pages: Vec<i64>) -> Result<MultiPageResponse<Location>, Error> {
+    pub async fn get_multiple(pages: Vec<i64>) -> Result<PageResponse<Location>, Error> {
         API::new(EntityTypes::Location)
             .get_multiple::<Location>(pages)
             .await
@@ -63,7 +63,7 @@ pub mod location {
 }
 
 pub mod episode {
-    use crate::entity::Entity::*;
+    use crate::entity::entity::*;
     use serde::Deserialize;
 
     #[derive(Deserialize)]
@@ -80,13 +80,13 @@ pub mod episode {
         API::new(EntityTypes::Episode).get::<Episode>(id).await
     }
 
-    pub async fn get_page(page: i64) -> Result<MultiPageResponse<Episode>, Error> {
+    pub async fn get_page(page: i64) -> Result<PageResponse<Episode>, Error> {
         API::new(EntityTypes::Episode)
             .get_page::<Episode>(page)
             .await
     }
 
-    pub async fn get_multiple(pages: Vec<i64>) -> Result<MultiPageResponse<Episode>, Error> {
+    pub async fn get_multiple(pages: Vec<i64>) -> Result<PageResponse<Episode>, Error> {
         API::new(EntityTypes::Episode)
             .get_multiple::<Episode>(pages)
             .await
