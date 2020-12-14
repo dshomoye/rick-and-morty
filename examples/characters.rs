@@ -1,4 +1,4 @@
-extern crate rick_morty_api_rust as rm;
+extern crate rick_and_morty as rm;
 
 // example of getting all characters
 async fn get_characters() -> () {

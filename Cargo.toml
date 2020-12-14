@@ -1,5 +1,5 @@
 [package]
-name = "rick-morty-api-rust"
+name = "rick-and-morty"
 version = "0.1.0"
 authors = ["Damola <dshomoye@gmail.com>"]
 edition = "2018"

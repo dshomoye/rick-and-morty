@@ -12,6 +12,7 @@ pub mod character {
         pub status: String,
         pub species: String,
         #[serde(rename = "type")]
+        /// `character.character_type` is equivalent to `character.type` in the json object of the api.
         pub character_type: String,
         pub origin: Object,
         pub location: Object,
@@ -49,6 +50,7 @@ pub mod character {
             }
         }
 
+        /// Gets the `Location` associated with the `Character` object.
         pub async fn get_location(&self) -> Result<Option<Location>, Error> {
             if self.location.url.is_empty() {
                 Ok(None)
@@ -59,22 +61,28 @@ pub mod character {
         }
     }
 
+    /// Returns slice of all characters from the API.
+    /// 
+    /// This makes synchronous calls so the entire call may take seconds to complete.
     pub async fn get_all() -> Result<Vec<Character>, Error> {
         API::new(EntityTypes::Character)
             .get_all::<Character>()
             .await
     }
 
+    // Get a single `Character` by its `id`
     pub async fn get(id: i64) -> Result<Character, Error> {
         API::new(EntityTypes::Character).get::<Character>(id).await
     }
 
+    /// Get `Character` in `page`
     pub async fn get_page(page: i64) -> Result<PageResponse<Character>, Error> {
         API::new(EntityTypes::Character)
             .get_page::<Character>(page)
             .await
     }
 
+    /// Get multiple characters by slices of `id`s.
     pub async fn get_multiple(pages: Vec<i64>) -> Result<PageResponse<Character>, Error> {
         API::new(EntityTypes::Character)
             .get_multiple::<Character>(pages)
@@ -116,22 +124,6 @@ mod tests {
                 println!("request error: {:?}", e);
                 panic!("request failed");
             }
-        }
-    }
-
-    #[tokio::test]
-    /// this calls the live API for now.
-    async fn it_gets_character_location() {
-        let c_req = character::get(1).await;
-        match c_req {
-            Ok(c_resp) => {
-                let loc_req = c_resp.get_location().await;
-                match loc_req {
-                    Ok(_l) => assert_eq!(true, true),
-                    Err(e) => panic!(e)
-                }
-            },
-            Err(e) => panic!(e)
         }
     }
 }
