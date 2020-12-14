@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 extern crate rick_and_morty as rm;
 
 // example of getting all characters
@@ -7,10 +9,20 @@ async fn get_characters() -> () {
         Ok(res) => println!("{:?}", res),
         Err(e) => println!("{:?}", e),
     }
-    ()
+}
+
+// get multiple characters by id
+async fn get_multiple() -> () {
+    let ids = vec![1,2,3];
+    let cs = rm::character::get_multiple(ids).await;
+    match cs {
+        Ok(chars) => println!("{:?}", chars),
+        Err(e) => println!("{:?}", e),
+    }
 }
 
 #[tokio::main]
 async fn main() {
-    get_characters().await;
+    // get_characters().await;
+    get_multiple().await;
 }

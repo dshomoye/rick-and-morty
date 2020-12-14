@@ -151,17 +151,17 @@ pub mod entity {
         }
 
         /// Get multiple entities in vector of provided ids
-        pub async fn get_multiple<T>(&self, pages: Vec<i64>) -> Result<PageResponse<T>, Error>
+        pub async fn get_multiple<T>(&self, pages: Vec<i64>) -> Result<Vec<T>, Error>
         where
             T: DeserializeOwned,
         {
-            let mut page_query = String::from("[");
+            let mut page_query = String::from("");
             for page in pages.iter() {
-                page_query = page_query + &page.to_string() + ",";
+                page_query = page_query + &page.to_string() + "," ;
             }
-            page_query = page_query + "]";
             let url = self.base_url() + "/" + &page_query;
-            let resp = get_url::<PageResponse<T>>(&url).await?;
+            println!("calling url {:?}", url);
+            let resp = get_url::<Vec<T>>(&url).await?;
             Ok(resp)
         }
     }

@@ -112,7 +112,7 @@ pub mod character {
     /// 
     /// Example call `get_multiple([2,3,4])` calls `"https://rickandmortyapi.com/api/character/[2,3,4]"`
 
-    pub async fn get_multiple(pages: Vec<i64>) -> Result<PageResponse<Character>, Error> {
+    pub async fn get_multiple(pages: Vec<i64>) -> Result<Vec<Character>, Error> {
         API::new(EntityTypes::Character)
             .get_multiple::<Character>(pages)
             .await

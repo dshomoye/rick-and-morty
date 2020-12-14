@@ -52,7 +52,7 @@ pub mod location {
     /// get all locations with id in slice `ids`
     /// 
     /// Example call `get_multiple([2,3,4])` calls `"https://rickandmortyapi.com/api/location/[2,3,4]"`
-    pub async fn get_multiple(ids: Vec<i64>) -> Result<PageResponse<Location>, Error> {
+    pub async fn get_multiple(ids: Vec<i64>) -> Result<Vec<Location>, Error> {
         API::new(EntityTypes::Location)
             .get_multiple::<Location>(ids)
             .await

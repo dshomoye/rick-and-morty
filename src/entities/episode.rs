@@ -52,7 +52,7 @@ pub mod episode {
     /// get multiple episodes with id slice of `ids`.
     /// 
     /// Example call `get_multiple([2,3,4])` calls `"https://rickandmortyapi.com/api/episode/[2,3,4]"`
-    pub async fn get_multiple(ids: Vec<i64>) -> Result<PageResponse<Episode>, Error> {
+    pub async fn get_multiple(ids: Vec<i64>) -> Result<Vec<Episode>, Error> {
         API::new(EntityTypes::Episode)
             .get_multiple::<Episode>(ids)
             .await
