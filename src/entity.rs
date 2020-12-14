@@ -7,6 +7,17 @@ pub mod entity {
     #[cfg(test)]
     use mockito;
 
+    /// This is a helper function for getting artibtrary data from a rest url. 
+    /// 
+    /// Can be used for any endpoint as long as the struct `T` matches the json response.
+    /// 
+    /// Can also be used for urls in `Object` or in slices of urls. 
+    /// 
+    /// E.g. For Character {
+    ///     episodes: ["https://mock.url", "https://mock2.url"]
+    /// }
+    /// 
+    /// The first episode can be obtained by calling `get_url(character.episodes[0])` 
     pub async fn get_url<T>(url: &str) -> Result<T, Error>
     where
         T: DeserializeOwned,
@@ -60,7 +71,10 @@ pub mod entity {
         entity_type: EntityTypes,
     }
 
-    /// `Object` is a convenient wrapper for maps returned from API for linkable entities. 
+    /// `Object` is a convenient wrapper for json objects returned from API for related entities. 
+    /// 
+    /// Related entities are not eagerly fetched by default since each call is another asynchronous call.
+    /// 
     /// Example: a character has a location object with the shape:
     /// ```json
     /// {

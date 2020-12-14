@@ -2,11 +2,11 @@ use crate::entity::entity::*;
 use crate::location::Location;
 use serde::{Deserialize, Serialize};
 
-/// `character` mod provides struct and methods for querying characters
+/// `character` mod provides struct and functions for querying characters
 pub mod character {
     use super::*;
 
-    /// `Character` closely matches character returned from character endpoint. 
+    /// `Character` closely matches character returned from [character endpoint](https://rickandmortyapi.com/documentation/#character-schema). 
     #[derive(Deserialize, Debug, PartialEq, Clone, Serialize)]
     pub struct Character {
         /// character id
@@ -108,9 +108,9 @@ pub mod character {
             .await
     }
 
-    /// Get multiple characters by slices of `id`s.
+    /// Get multiple characters by slice of `id`s.
     /// 
-    /// Example call get_multiple([2,3,4]) calls `"https://rickandmortyapi.com/api/character/[2,3,4]"`
+    /// Example call `get_multiple([2,3,4])` calls `"https://rickandmortyapi.com/api/character/[2,3,4]"`
 
     pub async fn get_multiple(pages: Vec<i64>) -> Result<PageResponse<Character>, Error> {
         API::new(EntityTypes::Character)

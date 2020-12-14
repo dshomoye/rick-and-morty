@@ -1,11 +1,11 @@
 use crate::entity::entity::*;
 use serde::{Deserialize, Serialize};
 
-/// `location` module contains struct and methods for managing locations in the Rick And Morty Universe.
+/// `location` module contains struct and functions for managing locations in the Rick And Morty Universe.
 pub mod location {
     use super::*;
 
-    /// The `Location` struct closely matches location object from API.
+    /// The `Location` struct closely matches [location object](https://rickandmortyapi.com/documentation/#location-schema) from API.
     #[derive(Deserialize, Serialize, Debug, Clone, PartialEq)]
     pub struct Location {
         ///  location id
@@ -49,9 +49,9 @@ pub mod location {
             .await
     }
 
-    /// get all locations with id in `ids`
+    /// get all locations with id in slice `ids`
     /// 
-    /// Example call get_multiple([2,3,4]) calls `"https://rickandmortyapi.com/api/location/[2,3,4]"`
+    /// Example call `get_multiple([2,3,4])` calls `"https://rickandmortyapi.com/api/location/[2,3,4]"`
     pub async fn get_multiple(ids: Vec<i64>) -> Result<PageResponse<Location>, Error> {
         API::new(EntityTypes::Location)
             .get_multiple::<Location>(ids)

@@ -4,16 +4,20 @@
 //! # rick_and_morty
 //! 
 //! The `rick_and_morty` crate provides a wrapper around [rickandmortyapi.com](https://rickandmortyapi.com)
-//! It exports all the basic entities available from the api:
-//! - Character
-//! - Episode
-//! - Location
+//!
+//!  It exports all the basic entities available from the api:
+//! - [`character`](character)
+//! - [`episode`](episode)
+//! - [`location`](location)
 //! 
-//! Each entity provides: `get`, `get_all`, `get_multiple` for equvailent REST endpoints.
+//! Each module provides: `get`, `get_all`, `get_multiple` for equvailent REST endpoints and matching structs.
+//! 
 //! All provided functions are asynchronous:
 //! 
 //! ## Examples:
+//! 
 //! - Getting all characters:
+//! 
 //! ```rust
 //! extern crate rick_and_morty as rm;
 //! 
@@ -23,11 +27,11 @@
 //!       Ok(res) => println!("{:?}", res),
 //!       Err(e) => println!("{:?}", e),
 //!   }
-//!   ()
 //! }
 //! ```
 //! 
 //! - Getting a single location:
+//! 
 //! ```rust
 //! extern crate rick_and_morty as rm;
 //! 
@@ -36,8 +40,7 @@
 //!     match c {
 //!       Ok(res) => println!("{:?}", res),
 //!       Err(e) => println!("{:?}", e),
-//!     }
-//!   ()
+//!    }
 //! }
 //! ```
 //! 

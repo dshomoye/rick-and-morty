@@ -1,11 +1,11 @@
 use crate::entity::entity::*;
 use serde::{Deserialize, Serialize};
 
-/// `episode` contains Struct and helper methods for episodes in the rick and morty api.
+/// `episode` contains Struct and helper functions for episodes in the rick and morty api.
 pub mod episode {
     use super::*;
 
-    /// `Episode` struct closely matches episode json object fields.
+    /// `Episode` struct closely matches [episode endpoint](https://rickandmortyapi.com/documentation/#episode-schema).
     #[derive(Deserialize, Serialize, Debug, Clone, PartialEq)]
     pub struct Episode {
         /// episode id
@@ -49,9 +49,9 @@ pub mod episode {
             .await
     }
 
-    /// get multiple episodes with id matching id in `ids`
+    /// get multiple episodes with id slice of `ids`.
     /// 
-    /// Example call get_multiple([2,3,4]) calls `"https://rickandmortyapi.com/api/episode/[2,3,4]"`
+    /// Example call `get_multiple([2,3,4])` calls `"https://rickandmortyapi.com/api/episode/[2,3,4]"`
     pub async fn get_multiple(ids: Vec<i64>) -> Result<PageResponse<Episode>, Error> {
         API::new(EntityTypes::Episode)
             .get_multiple::<Episode>(ids)
