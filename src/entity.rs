@@ -4,7 +4,8 @@ pub mod entity {
     use serde::de::DeserializeOwned;
     use serde::Deserialize;
 
-    const RMAPIROOT: &str = "https://rickandmortyapi.com/api";
+    #[cfg(test)]
+    use mockito;
 
     async fn get_url<T>(url: &str) -> Result<T, Error>
     where
@@ -23,16 +24,14 @@ pub mod entity {
     impl<T> PageResponse<T> {
         pub async fn get_next(&self) -> Result<Option<PageResponse<T>>, Error>
         where
-            T: DeserializeOwned
+            T: DeserializeOwned,
         {
             match self.info.next.clone() {
                 Some(url) => {
                     let resp = get_url::<PageResponse<T>>(&url).await?;
                     Ok(Some(resp))
                 }
-                None => {
-                    Ok(None)
-                }
+                None => Ok(None),
             }
         }
     }
@@ -55,16 +54,28 @@ pub mod entity {
         entity_type: EntityTypes,
     }
 
+    #[derive(Deserialize, Debug, PartialEq)]
+    pub struct Object {
+        pub name: String,
+        pub url: String,
+    }
+
     impl API {
         pub fn new(e: EntityTypes) -> Self {
             API { entity_type: e }
         }
 
         fn base_url(&self) -> String {
+            #[cfg(not(test))]
+            let url = "https://rickandmortyapi.com";
+
+            #[cfg(test)]
+            let url = &mockito::server_url();
+
             match self.entity_type {
-                EntityTypes::Character => RMAPIROOT.to_owned() + "/character",
-                EntityTypes::Episode => RMAPIROOT.to_owned() + "/episode",
-                EntityTypes::Location => RMAPIROOT.to_owned() + "/location",
+                EntityTypes::Character => url.to_owned() + "/api/character",
+                EntityTypes::Episode => url.to_owned() + "/api/episode",
+                EntityTypes::Location => url.to_owned() + "/api/location",
             }
         }
 
@@ -116,13 +127,12 @@ pub mod entity {
         {
             let mut page_query = String::from("[");
             for page in pages.iter() {
-                page_query = page_query +  &page.to_string() + ",";
+                page_query = page_query + &page.to_string() + ",";
             }
             page_query = page_query + "]";
             let url = self.base_url() + "/" + &page_query;
             let resp = get_url::<PageResponse<T>>(&url).await?;
             Ok(resp)
         }
-
     }
 }
