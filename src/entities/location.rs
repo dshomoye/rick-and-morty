@@ -8,6 +8,12 @@ pub mod location {
     pub struct Location {
         id: i64,
         name: String,
+        #[serde(rename = "type")]
+        pub location_type: String,
+        pub dimension: String,
+        pub residents: Vec<String>,
+        pub url: String,
+        pub created: String,
     }
 
     pub async fn get_all() -> Result<Vec<Location>, Error> {

@@ -118,4 +118,20 @@ mod tests {
             }
         }
     }
+
+    #[tokio::test]
+    /// this calls the live API for now.
+    async fn it_gets_character_location() {
+        let c_req = character::get(1).await;
+        match c_req {
+            Ok(c_resp) => {
+                let loc_req = c_resp.get_location().await;
+                match loc_req {
+                    Ok(_l) => assert_eq!(true, true),
+                    Err(e) => panic!(e)
+                }
+            },
+            Err(e) => panic!(e)
+        }
+    }
 }

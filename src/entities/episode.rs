@@ -6,8 +6,13 @@ pub mod episode {
 
     #[derive(Deserialize, Debug)]
     pub struct Episode {
-        id: i64,
-        name: String,
+        pub id: i64,
+        pub name: String,
+        pub air_date: String,
+        pub episode: String,
+        pub characters: Vec<String>,
+        pub url: String,
+        pub created: String,
     }
 
     pub async fn get_all() -> Result<Vec<Episode>, Error> {
