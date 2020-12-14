@@ -17,7 +17,7 @@ pub mod entity {
 
     /// `PageResponse` is a helper struct matching the shape of the returned json object when a call returned paginated results.
     /// 
-    /// Each object has a helper method `get_next()` that returns the next page until exhausted.
+    /// Each object has a helper method `next()` that returns the next page until exhausted.
     #[derive(Deserialize, Debug)]
     pub struct PageResponse<T> {
         results: Vec<T>,
@@ -25,10 +25,10 @@ pub mod entity {
     }
 
     impl<T> PageResponse<T> {
-        /// `get_next` gets the next `PageResponse` object, if any.
+        /// `next` gets the next `PageResponse` object, if any.
         /// 
         /// Can be a more efficent way of lazily fetching all entities for an endpoint instead of calling `get_all`.
-        pub async fn get_next(&self) -> Result<Option<PageResponse<T>>, Error>
+        pub async fn next(&self) -> Result<Option<PageResponse<T>>, Error>
         where
             T: DeserializeOwned,
         {

@@ -75,7 +75,7 @@ pub mod character {
         }
 
         /// Gets the `Location` associated with the `Character` object.
-        pub async fn get_location(&self) -> Result<Option<Location>, Error> {
+        pub async fn location(&self) -> Result<Option<Location>, Error> {
             if self.location.url.is_empty() {
                 Ok(None)
             } else {
