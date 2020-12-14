@@ -1,4 +1,5 @@
 use crate::entity::entity::*;
+use crate::location::Location;
 use serde::Deserialize;
 
 pub mod character {
@@ -45,6 +46,15 @@ pub mod character {
                     name: "".to_string(),
                     url: "".to_string(),
                 },
+            }
+        }
+
+        pub async fn get_location(&self) -> Result<Option<Location>, Error> {
+            if self.location.url.is_empty() {
+                Ok(None)
+            } else {
+                let resp = get_url::<Location>(&self.location.url).await?;
+                Ok(Some(resp))
             }
         }
     }

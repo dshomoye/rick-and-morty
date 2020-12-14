@@ -7,7 +7,7 @@ pub mod entity {
     #[cfg(test)]
     use mockito;
 
-    async fn get_url<T>(url: &str) -> Result<T, Error>
+    pub async fn get_url<T>(url: &str) -> Result<T, Error>
     where
         T: DeserializeOwned,
     {
