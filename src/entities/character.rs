@@ -2,24 +2,48 @@ use crate::entity::entity::*;
 use crate::location::Location;
 use serde::Deserialize;
 
+/// `character` mod provides struct and methods for querying characters
 pub mod character {
     use super::*;
 
+    /// `Character` closely matches character returned from character endpoint. 
     #[derive(Deserialize, Debug, PartialEq)]
     pub struct Character {
+        /// character id
         pub id: i64,
+
+        /// character name
         pub name: String,
+
+        /// character status: e.g `"Alive"`
         pub status: String,
+
+        /// character species
         pub species: String,
         #[serde(rename = "type")]
+
         /// `character.character_type` is equivalent to `character.type` in the json object of the api.
         pub character_type: String,
+
+        /// character `origin` has `origin.name` and `origin.url`.
         pub origin: Object,
+
+        /// character `location` has `location.name` and `location.url`.
         pub location: Object,
+
+        /// gender
         pub gender: String,
+
+        /// image url
         pub image: String,
+
+        /// slices of episode urls
         pub episode: Vec<String>,
+        
+        /// url
         pub url: String,
+
+        /// created date string
         pub created: String,
     }
 
@@ -70,12 +94,14 @@ pub mod character {
             .await
     }
 
-    // Get a single `Character` by its `id`
+    /// Get a single `Character` by its `id`
     pub async fn get(id: i64) -> Result<Character, Error> {
         API::new(EntityTypes::Character).get::<Character>(id).await
     }
 
-    /// Get `Character` in `page`
+    /// Get characters in `page`
+    /// 
+    /// Example, calling `get_page(1)` calls `"https://rickandmortyapi.com/api/character?page=1"`
     pub async fn get_page(page: i64) -> Result<PageResponse<Character>, Error> {
         API::new(EntityTypes::Character)
             .get_page::<Character>(page)
@@ -83,6 +109,9 @@ pub mod character {
     }
 
     /// Get multiple characters by slices of `id`s.
+    /// 
+    /// Example call get_multiple([2,3,4]) calls `"https://rickandmortyapi.com/api/character/[2,3,4]"`
+
     pub async fn get_multiple(pages: Vec<i64>) -> Result<PageResponse<Character>, Error> {
         API::new(EntityTypes::Character)
             .get_multiple::<Character>(pages)
