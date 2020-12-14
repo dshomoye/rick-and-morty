@@ -160,7 +160,6 @@ pub mod entity {
                 page_query = page_query + &page.to_string() + "," ;
             }
             let url = self.base_url() + "/" + &page_query;
-            println!("calling url {:?}", url);
             let resp = get_url::<Vec<T>>(&url).await?;
             Ok(resp)
         }

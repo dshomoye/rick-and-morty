@@ -21,8 +21,17 @@ async fn get_multiple() -> () {
     }
 }
 
+async fn get_page() -> () {
+    let cp = rm::character::get_page(3).await;
+    match cp {
+        Ok(p) => println!("{:?}", p),
+        Err(e) => println!("{:?}", e),
+    }
+}
+
 #[tokio::main]
 async fn main() {
     // get_characters().await;
-    get_multiple().await;
+    // get_multiple().await;
+    get_page().await;
 }
