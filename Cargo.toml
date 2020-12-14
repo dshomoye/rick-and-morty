@@ -3,7 +3,7 @@ name = "rick-and-morty"
 version = "0.1.0"
 authors = ["dshomoye <dshomoye@gmail.com>"]
 edition = "2018"
-license = "MIT"
+license = "MIT OR Apache-2.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

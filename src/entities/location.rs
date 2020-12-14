@@ -1,12 +1,12 @@
 use crate::entity::entity::*;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 /// `location` module contains struct and methods for managing locations in the Rick And Morty Universe.
 pub mod location {
     use super::*;
 
     /// The `Location` struct closely matches location object from API.
-    #[derive(Deserialize, Debug)]
+    #[derive(Deserialize, Serialize, Debug, Clone, PartialEq)]
     pub struct Location {
         ///  location id
         pub id: i64,

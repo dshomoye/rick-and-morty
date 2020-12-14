@@ -1,12 +1,12 @@
 use crate::entity::entity::*;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 /// `episode` contains Struct and helper methods for episodes in the rick and morty api.
 pub mod episode {
     use super::*;
 
     /// `Episode` struct closely matches episode json object fields.
-    #[derive(Deserialize, Debug)]
+    #[derive(Deserialize, Serialize, Debug, Clone, PartialEq)]
     pub struct Episode {
         /// episode id
         pub id: i64,

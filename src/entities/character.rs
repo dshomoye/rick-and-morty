@@ -1,13 +1,13 @@
 use crate::entity::entity::*;
 use crate::location::Location;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 /// `character` mod provides struct and methods for querying characters
 pub mod character {
     use super::*;
 
     /// `Character` closely matches character returned from character endpoint. 
-    #[derive(Deserialize, Debug, PartialEq)]
+    #[derive(Deserialize, Debug, PartialEq, Clone, Serialize)]
     pub struct Character {
         /// character id
         pub id: i64,

@@ -2,7 +2,7 @@ pub mod entity {
     use reqwest;
     pub use reqwest::Error;
     use serde::de::DeserializeOwned;
-    use serde::Deserialize;
+    use serde::{Deserialize, Serialize};
 
     #[cfg(test)]
     use mockito;
@@ -18,7 +18,7 @@ pub mod entity {
     /// `PageResponse` is a helper struct matching the shape of the returned json object when a call returned paginated results.
     /// 
     /// Each object has a helper method `next()` that returns the next page until exhausted.
-    #[derive(Deserialize, Debug)]
+    #[derive(Deserialize, Serialize, Debug, Clone)]
     pub struct PageResponse<T> {
         results: Vec<T>,
         info: Info,
@@ -42,7 +42,7 @@ pub mod entity {
         }
     }
 
-    #[derive(Deserialize, Debug)]
+    #[derive(Deserialize, Serialize, Debug, Clone)]
     pub struct Info {
         pages: i64,
         count: i64,
@@ -68,7 +68,7 @@ pub mod entity {
     ///     "url": "{url}"
     /// }
     /// ```
-    #[derive(Deserialize, Debug, PartialEq)]
+    #[derive(Deserialize, Serialize, Debug, PartialEq, Clone)]
     pub struct Object {
         /// `name` is the equivalent name from the api.
         pub name: String,
