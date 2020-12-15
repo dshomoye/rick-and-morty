@@ -1,4 +1,5 @@
 use crate::entity::entity::*;
+use crate::character::Character;
 use serde::{Deserialize, Serialize};
 
 /// `location` module contains struct and functions for managing locations in the Rick And Morty Universe.
@@ -28,6 +29,18 @@ pub mod location {
 
         /// string of created
         pub created: String,
+    }
+
+    impl Location {
+        /// Returns `Characters` that are residents of the location.
+        pub async fn residents(&self) -> Result<Vec<Character>, Error> {
+            let mut residents_slice = vec![];
+            for res_url in self.residents.iter() {
+                let resp = get_url::<Character>(res_url).await?;
+                residents_slice.push(resp);
+            }
+            Ok(residents_slice)
+        }
     }
 
     /// `get_all` locations

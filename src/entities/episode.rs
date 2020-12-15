@@ -1,4 +1,5 @@
 use crate::entity::entity::*;
+use crate::character::Character;
 use serde::{Deserialize, Serialize};
 
 /// `episode` contains Struct and helper functions for episodes in the rick and morty api.
@@ -28,6 +29,20 @@ pub mod episode {
 
         /// created date
         pub created: String,
+    }
+
+    impl Episode {
+        /// returns characters that appear in the episode.
+        /// 
+        /// Makes multiple async calls.
+        pub async fn characters(&self) -> Result<Vec<Character>, Error> {
+            let mut character_slice = vec![];
+            for char_url in self.characters.iter() {
+                let resp = get_url::<Character>(char_url).await?;
+                character_slice.push(resp);
+            }
+            Ok(character_slice)
+        }
     }
 
     /// get all episodes from the api.
