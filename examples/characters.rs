@@ -2,6 +2,7 @@
 
 extern crate rick_and_morty as rm;
 
+
 // example of getting all characters
 async fn get_characters() -> () {
     let c = rm::character::get_all().await;
@@ -29,9 +30,17 @@ async fn get_page() -> () {
     }
 }
 
+async fn get_single() -> Result<(), rm::Error> {
+    let char = rm::character::get(1).await?;
+    let origin = char.origin().await?;
+    let epi = char.episodes().await?;
+    Ok(())
+}
+
 #[tokio::main]
 async fn main() {
     // get_characters().await;
     // get_multiple().await;
-    get_page().await;
+    // get_page().await;
+    get_single().await;
 }
