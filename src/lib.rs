@@ -11,15 +11,17 @@
 //! - [`location`](location)
 //! 
 //! Each module provides: `get`, `get_all`, `get_multiple` for equvailent REST endpoints and matching structs.
+//! The structs also have helper methods for getting related entities. 
+//! For example [`Character.origin()`](character/struct.Character.html#method.origin) method returns a `Location` object.
 //! 
-//! All provided functions are asynchronous:
+//! All provided functions/methods are asynchronous:
 //! 
 //! ## Examples:
 //! 
 //! - Getting all characters:
 //! 
 //! ```rust
-//! extern crate rick_and_morty as rm;
+//! use rick_and_morty as rm;
 //! 
 //! async fn get_characters() -> () {
 //!   let c = rm::character::get_all().await;
@@ -33,7 +35,7 @@
 //! - Getting a single location:
 //! 
 //! ```rust
-//! extern crate rick_and_morty as rm;
+//! use rick_and_morty as rm;
 //! 
 //! async fn get_location() -> () {
 //!     let c = rm::location::get(1).await;
