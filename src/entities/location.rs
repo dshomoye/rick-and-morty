@@ -6,7 +6,7 @@ pub mod location {
     use super::*;
 
     /// The `Location` struct closely matches [location object](https://rickandmortyapi.com/documentation/#location-schema) from API.
-    #[derive(Deserialize, Serialize, Debug, Clone, PartialEq)]
+    #[derive(Deserialize, Serialize, Debug, Clone, PartialEq, Default)]
     pub struct Location {
         ///  location id
         pub id: i64,

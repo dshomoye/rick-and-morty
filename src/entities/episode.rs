@@ -6,7 +6,7 @@ pub mod episode {
     use super::*;
 
     /// `Episode` struct closely matches [episode endpoint](https://rickandmortyapi.com/documentation/#episode-schema).
-    #[derive(Deserialize, Serialize, Debug, Clone, PartialEq)]
+    #[derive(Deserialize, Serialize, Debug, Clone, PartialEq, Default)]
     pub struct Episode {
         /// episode id
         pub id: i64,

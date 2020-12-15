@@ -29,7 +29,7 @@ pub mod entity {
     /// `PageResponse` is a helper struct matching the shape of the returned json object when a call returned paginated results.
     /// 
     /// Each object has a helper method `next()` that returns the next page until exhausted.
-    #[derive(Deserialize, Serialize, Debug, Clone)]
+    #[derive(Deserialize, Serialize, Debug, Clone, Default, PartialEq)]
     pub struct PageResponse<T> {
         /// the slice of results (e.g `Vec<Character>`)
         pub results: Vec<T>,
@@ -57,7 +57,7 @@ pub mod entity {
     }
 
     /// data about the page 
-    #[derive(Deserialize, Serialize, Debug, Clone)]
+    #[derive(Deserialize, Serialize, Debug, Clone, Default, PartialEq)]
     pub struct Info {
         /// number of pages available
         pub pages: i64,
@@ -90,7 +90,7 @@ pub mod entity {
     ///     "url": "{url}"
     /// }
     /// ```
-    #[derive(Deserialize, Serialize, Debug, PartialEq, Clone)]
+    #[derive(Deserialize, Serialize, Debug, PartialEq, Clone, Default)]
     pub struct Object {
         /// `name` is the equivalent name from the api.
         pub name: String,

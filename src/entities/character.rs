@@ -7,7 +7,7 @@ pub mod character {
     use super::*;
 
     /// `Character` closely matches character returned from [character endpoint](https://rickandmortyapi.com/documentation/#character-schema). 
-    #[derive(Deserialize, Debug, PartialEq, Clone, Serialize)]
+    #[derive(Deserialize, Debug, PartialEq, Clone, Serialize, Default)]
     pub struct Character {
         /// character id
         pub id: i64,
@@ -48,31 +48,6 @@ pub mod character {
     }
 
     impl Character {
-        /// Create a new character object. Should not be required.
-        ///
-        /// Must use a mutable variable to update the fields.
-        pub fn new(id: i64) -> Self {
-            Character {
-                id: id,
-                name: "".to_string(),
-                status: "".to_string(),
-                species: "".to_string(),
-                character_type: "".to_string(),
-                gender: "".to_string(),
-                image: "".to_string(),
-                episode: vec![],
-                url: "".to_string(),
-                created: "".to_string(),
-                location: Object {
-                    name: "".to_string(),
-                    url: "".to_string(),
-                },
-                origin: Object {
-                    name: "".to_string(),
-                    url: "".to_string(),
-                },
-            }
-        }
 
         /// Gets the `Location` associated with the `Character` object.
         pub async fn location(&self) -> Result<Option<Location>, Error> {
@@ -134,7 +109,8 @@ mod tests {
             .with_body(data)
             .create();
 
-        let mut expected = character::Character::new(1);
+        let mut expected = character::Character::default();
+        expected.id = 1;
         expected.name = "John Doe".to_string();
         expected.status = "Alive".to_string();
         expected.character_type = "".to_string();
