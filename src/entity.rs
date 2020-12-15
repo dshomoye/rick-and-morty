@@ -31,8 +31,11 @@ pub mod entity {
     /// Each object has a helper method `next()` that returns the next page until exhausted.
     #[derive(Deserialize, Serialize, Debug, Clone)]
     pub struct PageResponse<T> {
-        results: Vec<T>,
-        info: Info,
+        /// the slice of results (e.g `Vec<Character>`)
+        pub results: Vec<T>,
+
+        /// the pagination object for the page. 
+        pub info: Info,
     }
 
     impl<T> PageResponse<T> {
@@ -53,12 +56,17 @@ pub mod entity {
         }
     }
 
+    /// data about the page 
     #[derive(Deserialize, Serialize, Debug, Clone)]
     pub struct Info {
-        pages: i64,
-        count: i64,
-        next: Option<String>,
-        prev: Option<String>,
+        /// number of pages available
+        pub pages: i64,
+        /// total number of entities (no. of characters...)
+        pub count: i64,
+        /// url to next page
+        pub next: Option<String>,
+        /// url to previous page
+        pub prev: Option<String>,
     }
 
     pub enum EntityTypes {
