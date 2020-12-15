@@ -1,6 +1,7 @@
 use crate::entity::entity::*;
 use crate::character::Character;
 use serde::{Deserialize, Serialize};
+use futures::future::try_join_all;
 
 /// `episode` contains Struct and helper functions for episodes in the rick and morty api.
 pub mod episode {
@@ -33,15 +34,14 @@ pub mod episode {
 
     impl Episode {
         /// returns characters that appear in the episode.
-        /// 
-        /// Makes multiple async calls.
         pub async fn characters(&self) -> Result<Vec<Character>, Error> {
             let mut character_slice = vec![];
+            let mut work = vec![];
             for char_url in self.characters.iter() {
-                let resp = get_url::<Character>(char_url).await?;
-                character_slice.push(resp);
+                work.push(get_url::<Character>(char_url));
             }
-            Ok(character_slice)
+            let results = try_join_all(work).await?;
+            Ok(results)
         }
     }
 
@@ -67,7 +67,7 @@ pub mod episode {
     /// get multiple episodes with id slice of `ids`.
     /// 
     /// Example call `get_multiple([2,3,4])` calls `"https://rickandmortyapi.com/api/episode/[2,3,4]"`
-    pub async fn get_multiple(ids: Vec<i64>) -> Result<Vec<Episode>, Error> {
+    pub async fn get_multiple(ids: &Vec<i64>) -> Result<Vec<Episode>, Error> {
         API::new(EntityTypes::Episode)
             .get_multiple::<Episode>(ids)
             .await

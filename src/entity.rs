@@ -159,7 +159,7 @@ pub mod entity {
         }
 
         /// Get multiple entities in vector of provided ids
-        pub async fn get_multiple<T>(&self, pages: Vec<i64>) -> Result<Vec<T>, Error>
+        pub async fn get_multiple<T>(&self, pages: &Vec<i64>) -> Result<Vec<T>, Error>
         where
             T: DeserializeOwned,
         {

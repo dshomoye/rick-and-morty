@@ -15,7 +15,7 @@ async fn get_characters() -> () {
 // get multiple characters by id
 async fn get_multiple() -> () {
     let ids = vec![1,2,3];
-    let cs = rm::character::get_multiple(ids).await;
+    let cs = rm::character::get_multiple(&ids).await;
     match cs {
         Ok(chars) => println!("{:?}", chars),
         Err(e) => println!("{:?}", e),
@@ -34,6 +34,7 @@ async fn get_single() -> Result<(), rm::Error> {
     let char = rm::character::get(1).await?;
     let origin = char.origin().await?;
     let epi = char.episodes().await?;
+    println!("episodes {:?}, origin {:?} ", epi, origin);
     Ok(())
 }
 

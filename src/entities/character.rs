@@ -2,6 +2,7 @@ use crate::entity::entity::*;
 use crate::location::Location;
 use crate::episode::Episode;
 use serde::{Deserialize, Serialize};
+use futures::future::try_join_all;
 
 /// `character` mod provides struct and functions for querying characters
 pub mod character {
@@ -71,25 +72,22 @@ pub mod character {
         }
 
         /// Gets the episodes the character appears in. 
-        /// 
-        /// This makes multiple async calls, might take longer time to resolve. 
         pub async fn episodes(&self) -> Result<Vec<Episode>, Error> {
             if self.episode.len() < 1 {
                 Ok(vec![])
             } else {
-                let mut episodes = vec![];
+                let mut work = vec![];
                 for e_url in self.episode.iter() {
-                    let resp = get_url::<Episode>(e_url).await?;
-                    episodes.push(resp);
+                    work.push(get_url::<Episode>(e_url));
                 }
-                Ok(episodes)
+                let results = try_join_all(work).await?;
+
+                Ok(results)
             }
         }
     }
 
     /// Returns slice of all characters from the API.
-    /// 
-    /// This makes synchronous calls so the entire call may take seconds to complete.
     pub async fn get_all() -> Result<Vec<Character>, Error> {
         API::new(EntityTypes::Character)
             .get_all::<Character>()
@@ -114,7 +112,7 @@ pub mod character {
     /// 
     /// Example call `get_multiple([2,3,4])` calls `"https://rickandmortyapi.com/api/character/[2,3,4]"`
 
-    pub async fn get_multiple(pages: Vec<i64>) -> Result<Vec<Character>, Error> {
+    pub async fn get_multiple(pages: &Vec<i64>) -> Result<Vec<Character>, Error> {
         API::new(EntityTypes::Character)
             .get_multiple::<Character>(pages)
             .await

@@ -1,6 +1,7 @@
 use crate::entity::entity::*;
 use crate::character::Character;
 use serde::{Deserialize, Serialize};
+use futures::future::try_join_all;
 
 /// `location` module contains struct and functions for managing locations in the Rick And Morty Universe.
 pub mod location {
@@ -34,12 +35,12 @@ pub mod location {
     impl Location {
         /// Returns `Characters` that are residents of the location.
         pub async fn residents(&self) -> Result<Vec<Character>, Error> {
-            let mut residents_slice = vec![];
+            let mut work = vec![];
             for res_url in self.residents.iter() {
-                let resp = get_url::<Character>(res_url).await?;
-                residents_slice.push(resp);
+                work.push(get_url::<Character>(res_url));
             }
-            Ok(residents_slice)
+            let results = try_join_all(work).await?;
+            Ok(results)
         }
     }
 
@@ -65,7 +66,7 @@ pub mod location {
     /// get all locations with id in slice `ids`
     /// 
     /// Example call `get_multiple([2,3,4])` calls `"https://rickandmortyapi.com/api/location/[2,3,4]"`
-    pub async fn get_multiple(ids: Vec<i64>) -> Result<Vec<Location>, Error> {
+    pub async fn get_multiple(ids: &Vec<i64>) -> Result<Vec<Location>, Error> {
         API::new(EntityTypes::Location)
             .get_multiple::<Location>(ids)
             .await
