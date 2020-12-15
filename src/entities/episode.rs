@@ -35,7 +35,6 @@ pub mod episode {
     impl Episode {
         /// returns characters that appear in the episode.
         pub async fn characters(&self) -> Result<Vec<Character>, Error> {
-            let mut character_slice = vec![];
             let mut work = vec![];
             for char_url in self.characters.iter() {
                 work.push(get_url::<Character>(char_url));

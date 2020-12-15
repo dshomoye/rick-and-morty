@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+#![allow(unused_must_use)]
 
 extern crate rick_and_morty as rm;
 
