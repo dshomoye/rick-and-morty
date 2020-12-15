@@ -1,5 +1,6 @@
 use crate::entity::entity::*;
 use crate::location::Location;
+use crate::episode::Episode;
 use serde::{Deserialize, Serialize};
 
 /// `character` mod provides struct and functions for querying characters
@@ -56,6 +57,32 @@ pub mod character {
             } else {
                 let resp = get_url::<Location>(&self.location.url).await?;
                 Ok(Some(resp))
+            }
+        }
+
+        /// Gets the `Location` object for the origin of the character.
+        pub async fn origin(&self) -> Result<Option<Location>, Error> {
+            if self.origin.url.is_empty() {
+                Ok(None)
+            } else {
+                let resp = get_url::<Location>(&self.origin.url).await?;
+                Ok(Some(resp))
+            }
+        }
+
+        /// Gets the episodes the character appears in. 
+        /// 
+        /// This makes multiple async calls, might take longer time to resolve. 
+        pub async fn episodes(&self) -> Result<Vec<Episode>, Error> {
+            if self.episode.len() < 1 {
+                Ok(vec![])
+            } else {
+                let mut episodes = vec![];
+                for e_url in self.episode.iter() {
+                    let resp = get_url::<Episode>(e_url).await?;
+                    episodes.push(resp);
+                }
+                Ok(episodes)
             }
         }
     }
