@@ -3,13 +3,19 @@
 This is a rust crate for working with the rick and morty api [here](https://rickandmortyapi.com).
 Primarily a learning (rust) experience for me. Contributions welcome!
 
+[Documentation on crates.rs](https://docs.rs/rick-and-morty)
+
+
+
+There's a sample [yew](https://yew.rs) app using the crate running [here](https://old-test.surge.sh)
+
 ---
 ## Usage
 
  - Get a single character by id:
 
 ```rust
- extern crate rick_and_morty as rm;
+ use rick_and_morty as rm;
 
  async fn get_character() -> () {
    let c = rm::character::get(1).await;
@@ -23,7 +29,7 @@ Primarily a learning (rust) experience for me. Contributions welcome!
 - Get all characters 
 
 ```rust
- extern crate rick_and_morty as rm;
+ use rick_and_morty as rm;
 
  async fn get_characters() -> () {
    let c = rm::character::get_all().await;
