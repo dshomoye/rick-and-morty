@@ -4,6 +4,10 @@ version = "0.1.0"
 authors = ["damola <mail@dshomoye.dev>"]
 edition = "2018"
 license = "MIT OR Apache-2.0"
+description = "A rust wrapper for rickandmortyapi.com"
+homepage = "https://github.com/dshomoye/rick-and-morty"
+repository = "https://github.com/dshomoye/rick-and-morty"
+keywords = ["rest-api", "rickandmorty"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
