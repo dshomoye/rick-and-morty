@@ -2,12 +2,9 @@
 
 This is a rust crate for working with the rick and morty api [here](https://rickandmortyapi.com).
 Primarily a learning (rust) experience for me. Contributions welcome!
+Install [crate](https://crates.io/crates/rick-and-morty)
 
-[Documentation on crates.rs](https://docs.rs/rick-and-morty)
-
-
-
-There's a sample [yew](https://yew.rs) app using the crate running [here](https://old-test.surge.sh)
+[Documentation on docs.rs](https://docs.rs/rick-and-morty)
 
 ---
 ## Usage
